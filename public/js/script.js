@@ -19,6 +19,7 @@ const peers = {}
 // })
 
 
+
 peer.on('call', call => {
     call.answer(myVideoStream)
     const video = document.createElement('video')
@@ -40,14 +41,20 @@ let message = $("input");
 $('html').keydown(function (e) {
     if (e.which == 13 && message.val().length !== 0) {
         socket.emit('send-message', message.val());
-        $("ul").append(`<li class="message"><b>Me</b><br/>${message.val()}</li>`);
-        text.val('')
+        $(".messages").append(`
+        <div class="message my-message">${message.val()}</div>`);
+        message.val('')
     }
 });
 
 socket.on("receive-message", data => {
     // console.log("message received in frontend")
-    $("ul").append(`<li class="message"><b>${data.by}</b><br/>${data.message}</li>`);
+    $(".messages").append(`
+    <div class="message other-message">
+        <span style="font-size: 0.7rem">${data.by}</span><br>
+        ${data.message}
+    </div>
+    `);
     scrollToBottom()
 })
 

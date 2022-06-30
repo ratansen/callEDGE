@@ -7,6 +7,7 @@
 }
 :root{
     --primary: rgb(224,30,90);
+    --primarylight: rgb(224,30,90, 0.2);
     --font1: 'Quicksand';
     --font2: 'Open sans';
 }

@@ -59,17 +59,17 @@
                     <div onclick="shareUnshare()" class="main__controls__button">
                         <i class="fas fa-microphone"></i>
                     </div>
+                    <div class="main__controls__button" style="background-color: red;">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                </div>
+                <div class="main__controls__block">
                     <div class="main__controls__button">
-                        <span class="leave_meeting">Leave Meeting</span>
+                        <i class="fas fa-user-friends"></i>
                     </div>
+                    <div onclick="toggleChat()" class="main__controls__button">
+                        <i class="fas fa-comment-alt"></i>
                     </div>
-                    <div class="main__controls__block">
-                        <div class="main__controls__button">
-                            <i class="fas fa-user-friends"></i>
-                        </div>
-                        <div onclick="toggleChat()" class="main__controls__button">
-                            <i class="fas fa-comment-alt"></i>
-                        </div>
                 </div>
             </div>
         </div>
@@ -78,9 +78,18 @@
                 <h6>Chat</h6>
             </div>
             <div class="main__chat_window">
-                <ul class="messages">
+                <div class="messages">
+                    <div class="message my-message">
+                        
+                        hello
+                        </div>
 
-                </ul>
+                        <div class="message other-message">
+                            <span style="font-size: 0.7rem">Ratan</span><br>
+                            hello
+                        </div>
+
+                </div>
 
             </div>
             <div class="main__message_container">
