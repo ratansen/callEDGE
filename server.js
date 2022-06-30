@@ -26,7 +26,7 @@ app.use(express.static('public'))
 app.use(session({
     resave: false,
     saveUninitialized:true,
-    secret:keys.session.cookieKey,
+    secret: process.env.cookieKey || keys.session.cookieKey,
 }))
 
 // app.use(cookieSession({
@@ -117,4 +117,4 @@ io.on('connection', socket => {
 
 })
 
-server.listen(3002)
+server.listen(process.env.PORT || 3002)
