@@ -4,14 +4,16 @@ const passport = require('passport');
 const cookieSession = require('cookie-session');
 const passportSetup = require('./config/passport-setup');
 const mongoose = require('mongoose');
-// const keys = require('./config/keys');
 const session = require('express-session')
 const app = express()
+require('dotenv').config()
 // const cors = require('cors')
 // app.use(cors())
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const { ExpressPeerServer } = require('peer');
+
+
 const peerServer = ExpressPeerServer(server, {
     debug: true
 });
@@ -26,7 +28,7 @@ app.use(express.static('public'))
 app.use(session({
     resave: false,
     saveUninitialized:true,
-    secret: process.env.cookieKey || keys.session.cookieKey,
+    secret: process.env.cookieKey,
 }))
 
 // app.use(cookieSession({
@@ -37,14 +39,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-const dbURI = process.env.dbURI || keys.mongodb.dbURI;
 
 
-mongoose.connect(process.env.dbURI || keys.mongodb.dbURI, () => {
-    console.log(dbURI)
+mongoose.connect(process.env.dbURI, () => {
     console.log('connected to mongodb');
 });
-
 
 
 const authCheck = (req, res, next) => {
