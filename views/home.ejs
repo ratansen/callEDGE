@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | callEDGE</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+
+    <nav>
+        <p>callEDGE</p>
+        <a href="/logout">Logout</a>
+
+    </nav>
+    
+
+    <div class="container">
+        <div class="hero-main">
+            <div class="first">Hello <%= user %></div>
+            <div class="second">I don't know what to write so I wrote this what you are seeing.</div>
+            <div class="meeting-links">
+                <a href="/room">
+                    <button class="create-meet">Create new meeting</button>
+                </a>
+                <input class="join-meet"></input>
+                <a>Join</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="images/hero.png"
+        </div>
+    </div>
+</body>
+<script>
+    function createDot(x, y){
+    var elem = document.createElement("div");
+    elem.setAttribute("class", "dot");
+    elem.setAttribute("style", "left:"+x+"px;top:"+y+"px;");
+    document.getElementsByTagName("body")[0].appendChild(elem);
+    return elem;
+}
+
+
+    var n = 0;
+
+    function dfs(){
+            if(n < 1000){
+                createDot(Math.floor(Math.random()*1900), Math.floor(Math.random()*870 + 40));
+                n++;
+                document.getElementById('num_of_dots').value ++;
+
+            }else{
+
+                clearInterval(createDots);
+
+            }
+    }
+    // var createDots = setInterval(function(){ dfs() }, .05);
+</script>
+
+</html>

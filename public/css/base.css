@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans&family=Quicksand:wght@400;500;600;700&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+:root{
+    --primary: rgb(224,30,90);
+    --font1: 'Quicksand';
+    --font2: 'Open sans';
+}
+
+a{
+    color: inherit;
+    text-decoration: none;
+}
+
+input:focus{
+    outline: none;
+}

@@ -1,0 +1,63 @@
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10vw;
+    height: 10vh;
+}
+.dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--primary);
+    z-index: -1000;
+    opacity: 0.5;
+    border-radius: 100%;
+}
+
+.container{
+    height: 90vh;
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+    font-family: var(--font1);
+    background-color: #fff;
+}
+
+.hero-main{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+
+}
+
+.create-meet{
+    height: 50px;
+    padding: 0 20px;
+    color: #fff;
+    background-color: var(--primary);
+    border: none;
+    
+}
+.join-meet{
+    height: 50px;
+    padding: 10px 20px;
+}
+
+.hero-image{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+img{
+    flex-shrink: 0;
+    /* height: 60%; */
+    width: 100%;
+    /* min-width: 100%;
+    min-height: 100% */
+
+}
