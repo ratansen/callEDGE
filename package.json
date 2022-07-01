@@ -15,7 +15,6 @@
     "express-session": "^1.17.3",
     "mongoose": "^6.4.1",
     "nodemon": "^2.0.16",
-    "particlesjs": "^2.2.3",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "peer": "^0.6.1",
