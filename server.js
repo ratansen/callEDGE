@@ -5,10 +5,9 @@ const cookieSession = require('cookie-session');
 const passportSetup = require('./config/passport-setup');
 const mongoose = require('mongoose');
 const session = require('express-session')
+const idGenerator = require('./utils/id-generator')
 const app = express()
 require('dotenv').config()
-// const cors = require('cors')
-// app.use(cors())
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const { ExpressPeerServer } = require('peer');
@@ -17,6 +16,7 @@ const { ExpressPeerServer } = require('peer');
 const peerServer = ExpressPeerServer(server, {
     debug: true
 });
+
 const { v4: uuidV4 } = require('uuid')
 
 app.use('/peerjs', peerServer);
@@ -39,6 +39,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+let username = "Anonymous";
 
 
 mongoose.connect(process.env.dbURI, () => {
@@ -62,13 +63,22 @@ app.get('/', authCheck,  (req, res) => {
     res.render('home', {user: req.user.username})
 })
 
+
 app.get('/room', (req, res) => {
-    res.redirect(`/room/${uuidV4()}`)
-})
-app.get('/login', (req, res) => {
-    res.render('login')
+    const meetingID = idGenerator()
+    res.redirect(`/room/${meetingID}`)
+    // res.redirect(`/room/${uuidV4()}`)
 })
 
+app.get('/test', (req, res) => {
+    res.render('test');
+})
+app.get('/login',  (req, res) => {
+    if(req.user){
+        res.redirect('/');
+    }
+    res.render('login')
+})
 
 app.get('/room/:room', (req, res) => {
     res.render('room', { roomId: req.params.room })
@@ -86,7 +96,7 @@ app.get('/logout', function(req, res, next) {
   });
 
 app.get('/auth/google/redirect', passport.authenticate('google'), (req, res) => {
-
+    username = req.user.username
     res.redirect('/');
     
 });
@@ -109,7 +119,10 @@ io.on('connection', socket => {
 
         socket.on("send-message", message => {
             console.log("message received in backend", userID)
-            socket.broadcast.to(roomID).emit("receive-message", { by: userID, message: message });
+            socket.broadcast.to(roomID).emit("receive-message", { by: username, message: message });
+        })
+        socket.on('canvas-data', (data)=> {
+            socket.broadcast.emit('canvas-data', data);
         })
         socket.on('disconnect', () => {
             socket.to(roomID).emit('user-disconnected', userID)

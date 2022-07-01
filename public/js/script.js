@@ -10,13 +10,13 @@ let peerInstance;
 let screenSharing = false;
 const peers = {}
 
-// navigator.mediaDevices.getUserMedia({
-//     video: true,
-//     audio: false
-// }).then(stream => {
-//     myVideoStream = stream;
-//     addVideoStream(myVideo, stream)
-// })
+navigator.mediaDevices.getUserMedia({
+    video: true,
+    audio: false
+}).then(stream => {
+    myVideoStream = stream;
+    addVideoStream(myVideo, stream)
+})
 
 
 
@@ -48,10 +48,10 @@ $('html').keydown(function (e) {
 });
 
 socket.on("receive-message", data => {
-    // console.log("message received in frontend")
+    console.log("message received in frontend")
     $(".messages").append(`
     <div class="message other-message">
-        <span style="font-size: 0.7rem">${data.by}</span><br>
+        <span style="font-size: 0.7rem; color: rgb(0, 0, 0, 0.4)">${data.by}</span><br>
         ${data.message}
     </div>
     `);

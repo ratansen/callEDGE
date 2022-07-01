@@ -147,7 +147,7 @@
     right: 20px;
     height: 85vh;
     width: 25vw;
-    /* transform: translateX(150%); */
+    transform: translateX(150%);
     transition: all 0.2s linear;
 }
 .bring-in{
