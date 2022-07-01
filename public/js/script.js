@@ -2,7 +2,6 @@ const socket = io('/')
 const videoGrid = document.getElementById('Dish')
 const peer = new Peer()
 let myVideoStream;
-let screenStream;
 const myVideo = document.createElement('video')
 const myScreen = document.createElement('video')
 myVideo.muted = true;
@@ -24,15 +23,21 @@ peer.on('call', call => {
     call.answer(myVideoStream)
     const video = document.createElement('video')
     call.on('stream', userVideoStream => {
-        addVideoStream(video, userVideoStream)
+        addVideoStream(video, userVideoStream, call.peer)
         console.log("came in ");
         peerInstance = call
+        peers[call.peer] = call
     })
 })
 
 
-socket.on('user-connected', userId => {
-    connectToNewUser(userId, myVideoStream)
+socket.on('user-connected', remoteID => {
+    connectToNewUser(remoteID, myVideoStream)
+})
+
+socket.on('screen-shared', screenID => {
+    console.log("connecting to new user");
+    connectToNewUser(screenID, myVideoStream)
 })
 // input value
 let message = $("input");
@@ -59,19 +64,28 @@ socket.on("receive-message", data => {
 })
 
 
-socket.on('user-disconnected', userId => {
-    if (peers[userId]) peers[userId].close()
+socket.on('user-disconnected', remoteID => {
+
+    if (peers[remoteID]) peers[remoteID].close()
+
+    if(remoteID){
+        var remoteVideo = document.getElementById(remoteID)
+        remoteVideo.remove(); 
+        resizeVideoWrappers();
+    }
+
 })
 
 peer.on('open', id => {
     socket.emit('join-room', ROOM_ID, id)
 })
 
-function connectToNewUser(userId, stream) {
-    const call = peer.call(userId, stream)
+function connectToNewUser(remoteID, stream) {
+    const call = peer.call(remoteID, stream)
+    peers[remoteID] = call
     const video = document.createElement('video')
-    call.on('stream', userVideoStream => {
-        addVideoStream(video, userVideoStream)
+    call.on('stream', remoteVideoStream => {
+        addVideoStream(video, remoteVideoStream, remoteID)
     })
     call.on('close', () => {
         video.remove()
@@ -79,27 +93,10 @@ function connectToNewUser(userId, stream) {
 
     peerInstance = call
 
-    peers[userId] = call
 }
 
 
-// const shareUnshare = () => {
-    
-
-// }
-
-
-function addVideoStream(video, stream) {
-    video.srcObject = stream
-    video.addEventListener('loadedmetadata', () => {
-        video.play()
-    })
-    const videoDiv = document.createElement('div')
-    videoDiv.classList.add("videoWrapper")
-    
-    videoDiv.append(video)
-    videoGrid.append(videoDiv)
-    
+function resizeVideoWrappers(){
     var allVideos = document.querySelectorAll('.videoWrapper')
     var n = allVideos.length
     var rows = Math.ceil(n / 3);
@@ -111,6 +108,22 @@ function addVideoStream(video, stream) {
         item.style.width = width;
         item.style.height = height;
     })
+}
+
+
+function addVideoStream(video, stream, remoteID) {
+    video.srcObject = stream
+    video.addEventListener('loadedmetadata', () => {
+        video.play()
+    })
+    const videoDiv = document.createElement('div')
+    videoDiv.classList.add("videoWrapper")
+    videoDiv.setAttribute('id', remoteID)
+    
+    videoDiv.append(video)
+    videoGrid.append(videoDiv)
+    resizeVideoWrappers();
+
 }
 
 

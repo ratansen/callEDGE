@@ -112,11 +112,18 @@ app.get('/auth/google/redirect', passport.authenticate('google'), (req, res) => 
 io.on('connection', socket => {
     console.log("connected")
     const peers = []
+    let userID;
     socket.on('join-room', (roomID, userID) => {
         peers.push(userID)
+        
         console.log(userID, "joined in", roomID)
         socket.join(roomID)
         socket.broadcast.to(roomID).emit('user-connected', userID)
+
+        socket.on("screen-shared", (roomID, screenID) => {
+            console.log("came in screen share");
+            socket.broadcast.to(roomID).emit('screen-shared', screenID)
+        })
 
         socket.on("send-message", message => {
             console.log("message received in backend", userID)
@@ -125,12 +132,17 @@ io.on('connection', socket => {
         socket.on('canvas-data', (data)=> {
             socket.broadcast.emit('canvas-data', data);
         })
+        socket.on('screen-unshared', (screenID) =>{
+            socket.to(roomID).emit('user-disconnected', screenID);
+        })
         socket.on('disconnect', () => {
+            console.log("disconnect", userID);
             socket.to(roomID).emit('user-disconnected', userID)
         })
     })
 
-    
+
+
 
 
 

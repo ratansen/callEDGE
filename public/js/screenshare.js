@@ -11,12 +11,11 @@ screenPeer.on('open', id => {
 let sharingScreen = false
 
 function shareUnshare(){
-    if(sharingScreen === true){
-        console.log("came in screen disconnected");
-        screenPeer.disconnect();
-        screenSharing = false;
+    if(sharingScreen){
+        stopScreenShare();
+        return;
     }
-    else{
+    try{
         console.log("came in sharing");
         var displayMediaOptions = {
             video: {
@@ -28,16 +27,24 @@ function shareUnshare(){
         
         navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
         .then(function (stream) {
-            socket.emit('join-room', ROOM_ID, screenID)
-            // console.log("i am screenpeer");
+            screenStream = stream
+            socket.emit('screen-shared', ROOM_ID, screenID)
             screenPeer.on('call', call => {
-                // console.log("i am screen and i answer call here");
-                call.answer(stream)
+                call.answer(screenStream)
             }) 
         });
 
         sharingScreen = true;
-
-
+    } catch(err){
+        console.log(err);
     }
+}
+
+
+function stopScreenShare(){
+    socket.emit('screen-unshared', screenID)
+    let tracks = screenStream.getTracks();
+    tracks.forEach(track => track.stop());
+    screenStream = null;
+    sharingScreen = false;
 }
