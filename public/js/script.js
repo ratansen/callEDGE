@@ -126,10 +126,17 @@ function addVideoStream(video, stream, remoteID) {
 
 }
 
+const endCall = () => {
+    if(confirm("Are you sure to end this call?")) {
+        socket.emit('end-call');
+        window.location = '/'
+    }
+}
+
 
 
 const scrollToBottom = () => {
-    var d = $('.main__chat_window');
+    var d = $('.main-chat_window');
     d.scrollTop(d.prop("scrollHeight"));
 }
 
@@ -146,7 +153,6 @@ const muteUnmute = () => {
 }
 
 const playStop = () => {
-    console.log('object')
     let enabled = myVideoStream.getVideoTracks()[0].enabled;
     if (enabled) {
         myVideoStream.getVideoTracks()[0].enabled = false;
@@ -157,34 +163,20 @@ const playStop = () => {
     }
 }
 
-const setMuteButton = () => {
-    const html = `
-    <i class="fas fa-microphone"></i>
-  `
-    document.querySelector('.main__mute_button').innerHTML = html;
-}
 
-const setUnmuteButton = () => {
-    const html = `
-    <i class="unmute fas fa-microphone-slash"></i>
-  `
-    document.querySelector('.main__mute_button').innerHTML = html;
+const setUnmuteButton = () => $('.mic').html('mic_off')
+const setMuteButton = () => $('.mic').html('mic')
+const setStopVideo = () => $('.videocam').html('videocam')
+const setPlayVideo = () => $('.videocam').html('videocam_off')
+const setStopShareScreen = () => $('.shareUnshare').html('stop_screen_share')
+const setShareScreen = () => $('.shareUnshare').html('screen_share')
+const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+        $('.copy').html('check_circle');
+        setTimeout(() => {$('.copy').html('content_copy')}, 2000);
+        
+    });
 }
-
-const setStopVideo = () => {
-    const html = `
-    <i class="fas fa-video"></i>
-  `
-    document.querySelector('.main__video_button').innerHTML = html;
-}
-
-const setPlayVideo = () => {
-    const html = `
-  <i class="stop fas fa-video-slash"></i>
-  `
-    document.querySelector('.main__video_button').innerHTML = html;
-}
-
 
 const toggleChat = () => {
     $('.chat').toggleClass("bring-in")

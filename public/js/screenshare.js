@@ -28,6 +28,7 @@ function shareUnshare(){
         navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
         .then(function (stream) {
             screenStream = stream
+            setStopShareScreen()
             socket.emit('screen-shared', ROOM_ID, screenID)
             screenPeer.on('call', call => {
                 call.answer(screenStream)
@@ -46,5 +47,6 @@ function stopScreenShare(){
     let tracks = screenStream.getTracks();
     tracks.forEach(track => track.stop());
     screenStream = null;
+    setShareScreen();
     sharingScreen = false;
 }

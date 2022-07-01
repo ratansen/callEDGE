@@ -11,22 +11,24 @@
 <body>
 
     <nav>
-        <p>callEDGE</p>
-        <a href="/logout">Logout</a>
-
+        <p style="font-family: var(--font4) ;">callEDGE</p>
+        <a href="/logout"><i class="material-icons md-48">logout</i></a>
+    
     </nav>
     
 
     <div class="container">
         <div class="hero-main">
             <div class="first">Hello <%= user %></div>
-            <div class="second">I don't know what to write so I wrote this what you are seeing.</div>
-            <div class="meeting-links">
-                <a href="/room">
-                    <button class="create-meet">Create new meeting</button>
-                </a>
-                <input id="meeting-link" class="join-meet"></input>
-                <button onclick="window.location = 'room/' + document.getElementById('meeting-link').value">Join</button>
+            <div class="second">I don't know what to write so I wrote this.</div>
+            <div class="meeting-actions">
+                <div onclick="window.location = 'room/'" class="create-meet">
+                    <span class="material-icons">videocam</span>Create new meet
+                </div>
+                <div class="input-box">
+                    <span class="material-icons">keyboard</span><input placeholder="Enter meet link" id="meeting-link" class="meeting-link"></input>
+                    <button id="join" class="join" onclick="window.location = 'room/' + document.getElementById('meeting-link').value"><span class="material-icons">chevron_right</span></button>
+                </div>
             </div>
         </div>
         <div class="hero-image">
@@ -35,30 +37,19 @@
     </div>
 </body>
 <script>
-    function createDot(x, y){
-    var elem = document.createElement("div");
-    elem.setAttribute("class", "dot");
-    elem.setAttribute("style", "left:"+x+"px;top:"+y+"px;");
-    document.getElementsByTagName("body")[0].appendChild(elem);
-    return elem;
-}
+    var join = document.getElementById('join')
+    var meetLink = document.getElementById('meeting-link') 
+    meetLink.addEventListener('onfocus', () => {
+        if(meetLink.value.length == 0){
+            join.style.color = "gray";
+        }
+        else{
+            join.style.color = "var(--primary)";
+        }
 
+    })
 
-    var n = 0;
-
-    function dfs(){
-            if(n < 1000){
-                createDot(Math.floor(Math.random()*1900), Math.floor(Math.random()*870 + 40));
-                n++;
-                document.getElementById('num_of_dots').value ++;
-
-            }else{
-
-                clearInterval(createDots);
-
-            }
-    }
-    // var createDots = setInterval(function(){ dfs() }, .05);
+    
 </script>
 
 </html>

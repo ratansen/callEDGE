@@ -75,18 +75,18 @@
     overflow: hidden;
 }
 
-.main__left {
+.main-left {
     flex: 1;
     /* flex-grow: auto; */
     display: flex;
     flex-direction: column;
 }
 
-/* .main__right {
+/* .main-right {
     flex: 0.2
 } */
 
-.main__videos {
+.main-videos {
     flex-grow: 1;
     background-color: black;
     display: flex;
@@ -95,7 +95,7 @@
     padding: 20px;
 }
 
-.main__controls {
+.main-controls {
     /* background-color: #1C1E20; */
     background-color: #000;
 }
@@ -105,7 +105,7 @@
     border-left: 1px solid #3D3D42;
 }
 
-.main__controls {
+.main-controls {
     color: #D2D2D2;
     display: flex;
     justify-content: space-between;
@@ -113,13 +113,13 @@
     gap: 10px;
 }
 
-.main__controls__block {
+.main-controls-block {
     display: flex;
     padding: 20px;
     gap: 10px;
 }
 
-.main__controls__button {
+.main-controls-button {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -132,11 +132,11 @@
     background-color: #343434;
 }
 
-.main__controls__button i{
+.main-controls-button i{
     font-size: 1.3rem;
 }
 
-.main__controls__button:hover {
+.main-controls-button:hover {
 
 }
 
@@ -156,13 +156,13 @@
     transform: translateX(0);
 }
 
-.main__header {
+.main-header {
     padding-top: 5px;
     color: #000;
     text-align: center;
 }
 
-.main__chat_window {
+.main-chat_window {
     flex-grow: 1;
     overflow-y: auto;
 }
@@ -193,12 +193,12 @@
     background-color: var(--primarylight);
 }
 
-.main__message_container {
+.main-message_container {
     padding: 22px 12px;
     display: flex;
 }
 
-.main__message_container input {
+.main-message_container input {
     flex-grow: 1;
     background-color: transparent;
     border: none;

@@ -136,6 +136,10 @@ io.on('connection', socket => {
         socket.on('screen-unshared', (screenID) =>{
             socket.to(roomID).emit('user-disconnected', screenID);
         })
+        socket.on('end-call', () =>{
+            socket.to(roomID).emit('user-disconnected', userID);
+            
+        })
         socket.on('disconnect', () => {
             console.log("disconnect", userID);
             socket.to(roomID).emit('user-disconnected', userID)

@@ -1,8 +1,11 @@
+*{
+    font-family: var(--font2);
+}
 nav{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 10vw;
+    padding: 10px 5vw;
     height: 10vh;
 }
 .dot {
@@ -18,7 +21,7 @@ nav{
 .container{
     height: 90vh;
     display: flex;
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     font-family: var(--font1);
     background-color: #fff;
@@ -30,20 +33,54 @@ nav{
     flex-direction: column;
     justify-content: center;
     gap: 20px;
-
+}
+.meeting-actions{
+    display: flex;
+    vertical-align: middle;
+    gap: 5px;
+    flex-wrap: wrap;
 }
 
-.create-meet{
+.input-box{
+    border: 1px solid var(--primary);
+    padding: 0 10px;
+    border-radius: 5px;
+    display: flex;
     height: 50px;
-    padding: 0 20px;
+}
+.input-box input{
+    outline: none;
+    border: none;
+    padding: 0 10px;
+}
+.create-meet{
+    display: flex;
+    cursor: pointer;
+    border-radius: 5px;
+    align-items: center;
+    height: 50px;
+    padding: 0 10px;
+    gap: 5px;
     color: #fff;
     background-color: var(--primary);
     border: none;
     
 }
+.create-meet span{
+    margin-top: 2px;
+}
 .join-meet{
     height: 50px;
     padding: 10px 20px;
+}
+.join{
+    outline: none;
+    border: none;
+    color: var(--primary);
+    background-color: transparent;
+}
+.meeting-link:focus .join{
+    color: red;
 }
 
 .hero-image{
@@ -53,6 +90,7 @@ nav{
     align-items: center;
     overflow: hidden;
 }
+
 img{
     flex-shrink: 0;
     /* height: 60%; */
@@ -61,3 +99,9 @@ img{
     min-height: 100% */
 
 }
+
+@media only screen and (max-width: 600px) {
+    .container{
+        flex-direction: column;
+    }
+  }

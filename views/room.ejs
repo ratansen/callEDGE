@@ -43,49 +43,49 @@
 
 <body>
     <div class="main">
-        <div class="main__left">
-                <!--<i class="fa-solid fa-record-vinyl"></i> -->
-            <div class="main__videos">
+        <div class="main-left">
+            <div class="main-videos">
                 <div id="Dish">
 
                 </div>
             </div>
-            <div class="main__controls">
-                <div class="main__controls__block">
+            <div class="main-controls">
+                <div class="main-controls-block">
                     <%= roomId %>
+                    <span style="font-size: 1.2rem; margin-bottom: 12px;" class="material-icons copy" onclick="copyToClipboard('<%= roomId %>')">content_copy</span>
                 </div>
-                <div class="main__controls__block">
-                    <div onclick="muteUnmute()" class="main__controls__button main__mute_button">
-                        <i class="fas fa-microphone"></i>
+                <div class="main-controls-block">
+                    <div onclick="muteUnmute()" class="main-controls-button main-mute_button">
+                        <span class="material-icons mic">mic</span>
                     </div>
-                    <div onclick="playStop()" class="main__controls__button main__video_button">
-                        <i class="fas fa-video"></i>
+                    <div onclick="playStop()" class="main-controls-button main-video_button">
+                        <span class="material-icons videocam">videocam</span>
                     </div>
-                    <div onclick="shareUnshare()" class="main__controls__button">
-                        <i class="fa-solid fa-screencast"></i>
+                    <div onclick="shareUnshare()" class="main-controls-button">
+                        <span class="material-icons shareUnshare">screen_share</span>
                     </div>
-                    <div class="main__controls__button" style="background-color: red;">
-                        <i class="fas fa-phone"></i>
+                    <div onclick="endCall()" class="main-controls-button" style="background-color: red;">
+                        <span class="material-icons">call_end</span>
                     </div>
                 </div>
-                <div class="main__controls__block">
-                    <div class="main__controls__button">
-                        <i class="fas fa-user-friends"></i>
+                <div class="main-controls-block">
+                    <div class="main-controls-button">
+                        <span class="material-icons">people</span>
                     </div>
-                    <div onclick="toggleChat()" class="main__controls__button">
-                        <i class="fas fa-comment-alt"></i>
-                    </div>
-                    <div onclick="toggleBoard()" class="main__controls__button">
-                        <i class="fas fa-comment-alt"></i>
+                    <div onclick="toggleChat()" class="main-controls-button">
+                        <span class="material-icons">chat</span>
+                        </div>
+                        <div onclick="toggleBoard()" class="main-controls-button">
+                            <span class="material-icons">note_alt</span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="chat">
-            <div class="main__header">
+            <div class="main-header">
                 <h6>Chat</h6>
             </div>
-            <div class="main__chat_window">
+            <div class="main-chat_window">
                 <div class="messages">
                     <div class="message my-message">
                         Sample self message box
@@ -99,7 +99,7 @@
                 </div>
 
             </div>
-            <div class="main__message_container">
+            <div class="main-message_container">
                 <input id="chat_message" type="text" placeholder="Type message here...">
             </div>
         </div>

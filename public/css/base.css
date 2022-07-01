@@ -1,12 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Acme&family=Open+Sans&family=Quicksand:wght@400;500;600;700&display=swap');
 
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 :root{
-    --primary: rgb(224,30,90);
+    /* --primary: rgb(224,30,90); */
+    --primary: #3509ae;
     --primarylight: rgb(224,30,90, 0.2);
     --font1: 'Quicksand';
     --font2: 'Open sans';
@@ -21,4 +24,15 @@ a{
 
 input:focus{
     outline: none;
+}
+.material-icons{
+    display: flex;
+    align-items: center;
+}
+
+.material-icons:hover{
+    cursor: pointer;
+}
+button:hover{
+    cursor: pointer;
 }
