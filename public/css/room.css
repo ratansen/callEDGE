@@ -92,7 +92,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px;
+    padding: 20px;
 }
 
 .main__controls {
@@ -110,11 +110,13 @@
     display: flex;
     justify-content: space-between;
     padding: 5px;
+    gap: 10px;
 }
 
 .main__controls__block {
     display: flex;
     padding: 20px;
+    gap: 10px;
 }
 
 .main__controls__button {

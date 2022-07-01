@@ -29,6 +29,7 @@ app.use(session({
     resave: false,
     saveUninitialized:true,
     secret: process.env.cookieKey,
+    maxAge: 30 * 24 * 60 * 60 * 1000,
 }))
 
 // app.use(cookieSession({
@@ -77,7 +78,7 @@ app.get('/login',  (req, res) => {
     if(req.user){
         res.redirect('/');
     }
-    res.render('login')
+    else res.render('login')
 })
 
 app.get('/room/:room', (req, res) => {
@@ -127,9 +128,11 @@ io.on('connection', socket => {
         socket.on('disconnect', () => {
             socket.to(roomID).emit('user-disconnected', userID)
         })
-
-
     })
+
+    
+
+
 
 })
 

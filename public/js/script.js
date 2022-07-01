@@ -83,10 +83,10 @@ function connectToNewUser(userId, stream) {
 }
 
 
-const shareUnshare = () => {
+// const shareUnshare = () => {
     
 
-}
+// }
 
 
 function addVideoStream(video, stream) {

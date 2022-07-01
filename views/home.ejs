@@ -25,8 +25,8 @@
                 <a href="/room">
                     <button class="create-meet">Create new meeting</button>
                 </a>
-                <input class="join-meet"></input>
-                <a>Join</a>
+                <input id="meeting-link" class="join-meet"></input>
+                <button onclick="window.location = 'room/' + document.getElementById('meeting-link').value">Join</button>
             </div>
         </div>
         <div class="hero-image">
