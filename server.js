@@ -85,7 +85,7 @@ app.get('/login',  (req, res) => {
 })
 
 app.get('/room/:room', (req, res) => {
-    res.render('room', { roomId: req.params.room })
+    res.render('room', {roomId: req.params.room, user: req.user.username})
 })
 
 app.get('/auth/google', passport.authenticate('google', {
@@ -112,12 +112,14 @@ app.get('/auth/google/redirect', passport.authenticate('google'), (req, res) => 
 
 // -----------socket stuff--------------------------
 
+var allUsers = {}
+
 io.on('connection', socket => {
     console.log("connected")
     const peers = []
     let userID;
-    socket.on('join-room', (roomID, userID) => {
-        peers.push(userID)
+    socket.on('join-room', (roomID, userID, USER) => {
+        allUsers[userID] = USER
         
         console.log(userID, "joined in", roomID)
         socket.join(roomID)
@@ -128,9 +130,9 @@ io.on('connection', socket => {
             socket.broadcast.to(roomID).emit('screen-shared', screenID)
         })
 
-        socket.on("send-message", message => {
+        socket.on("send-message", (message, USER) => {
             console.log("message received in backend", userID)
-            socket.broadcast.to(roomID).emit("receive-message", { by: username, message: message });
+            socket.broadcast.to(roomID).emit("receive-message", { by: USER, message: message });
         })
         socket.on('canvas-data', (data)=> {
             console.log("canvas data came to server");

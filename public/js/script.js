@@ -34,7 +34,7 @@ navigator.mediaDevices.getUserMedia({
 })
 
 peer.on('open', id => {
-    socket.emit('join-room', ROOM_ID, id)
+    socket.emit('join-room', ROOM_ID, id, USER)
 })
 
 
@@ -61,7 +61,7 @@ let message = $("#chat_message");
 
 $('html').keydown(function (e) {
     if (e.which == 13 && message.val().length !== 0) {
-        socket.emit('send-message', message.val());
+        socket.emit('send-message', message.val(), USER);
         $(".messages").append(`
         <div class="message my-message">${message.val()}</div>`);
         message.val('')
