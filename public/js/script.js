@@ -11,7 +11,7 @@ const peers = {}
 
 navigator.mediaDevices.getUserMedia({
     video: true,
-    audio: false
+    audio: true
 }).then(stream => {
     myVideoStream = stream;
     addVideoStream(myVideo, stream, "my-video-wrapper")
@@ -24,7 +24,7 @@ navigator.mediaDevices.getUserMedia({
             peers[call.peer] = call
         })
     })
-    
+
     socket.on('user-connected', remoteID => {
         connectToNewUser(remoteID, myVideoStream)
     })
