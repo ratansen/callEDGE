@@ -16,7 +16,7 @@ navigator.mediaDevices.getUserMedia({
     myVideoStream = stream;
     addVideoStream(myVideo, stream, "my-video-wrapper")
     peer.on('call', call => {
-        call.answer(myVideoStream)
+        call.answer(stream)
         const video = document.createElement('video')
         call.on('stream', userVideoStream => {
             addVideoStream(video, userVideoStream, call.peer)
@@ -25,13 +25,17 @@ navigator.mediaDevices.getUserMedia({
         })
     })
 
+    
     socket.on('user-connected', remoteID => {
-        connectToNewUser(remoteID, myVideoStream)
+        connectToNewUser(remoteID, stream)
     })
     
     
 })
 
+peer.on('open', id => {
+    socket.emit('join-room', ROOM_ID, id)
+})
 
 
 
@@ -39,6 +43,8 @@ socket.on('screen-shared', screenID => {
     console.log("connecting to new user");
     connectToNewUser(screenID, myVideoStream)
 })
+
+
 
 var canvas = document.getElementById('whiteBoard');
 socket.on('canvas-data', imageData => {
@@ -77,7 +83,7 @@ socket.on("receive-message", data => {
 socket.on('user-disconnected', remoteID => {
 
     if (peers[remoteID]) peers[remoteID].close()
-
+    console.log(remoteID + " disconnected");
     if(remoteID){
         var remoteVideo = document.getElementById(remoteID)
         remoteVideo.remove(); 
@@ -86,9 +92,8 @@ socket.on('user-disconnected', remoteID => {
 
 })
 
-peer.on('open', id => {
-    socket.emit('join-room', ROOM_ID, id)
-})
+
+
 
 function connectToNewUser(remoteID, stream) {
     const call = peer.call(remoteID, stream)
@@ -105,22 +110,31 @@ function connectToNewUser(remoteID, stream) {
 
 }
 
-function addVideoStream(video, stream, remoteID) {
+async function addVideoStream(video, stream, remoteID) {
     video.srcObject = stream
     video.addEventListener('loadedmetadata', () => {
         video.play()
     })
+    console.log("adding video");
     const videoDiv = document.createElement('div')
     videoDiv.classList.add("videoWrapper")
     videoDiv.setAttribute('id', remoteID)
     
-    videoDiv.append(video)
+    const app = videoDiv.append(video)
     videoGrid.append(videoDiv)
     resizeVideoWrappers();
 
 }
 
 function resizeVideoWrappers(){
+
+    allWrappers = document.getElementsByClassName('videoWrapper');
+    Array.from(allWrappers).forEach(e => {
+        if(e.querySelector('video') === null){
+            e.remove();
+        }
+    })
+
     var allVideos = document.querySelectorAll('.videoWrapper')
     var n = allVideos.length
     var rows = Math.ceil(n / 3);

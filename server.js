@@ -9,7 +9,15 @@ const idGenerator = require('./utils/id-generator')
 const app = express()
 require('dotenv').config()
 const server = require('http').Server(app)
-const io = require('socket.io')(server)
+const io = require('socket.io')(server, {
+    cors: {
+        origin: process.env.PORT,
+        methods: ["GET", "POST"],
+        transports: ['websocket', 'polling'],
+        credentials: true
+    },
+    allowEIO3: true
+})
 const { ExpressPeerServer } = require('peer');
 
 
