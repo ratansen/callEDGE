@@ -18,13 +18,13 @@ const peerServer = ExpressPeerServer(server, {
     debug: true
 });
 
-const { v4: uuidV4 } = require('uuid')
 
 app.use('/peerjs', peerServer);
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
-app.use(express.json({limit: '50mb'}));
+app.use(bodyParser.json({limit: '50mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 
 app.use(session({
     resave: false,
@@ -33,11 +33,7 @@ app.use(session({
     maxAge: 30 * 24 * 60 * 60 * 1000,
 }))
 
-// app.use(cookieSession({
-//     maxAge: 24 * 60 * 60 * 1000,
-//     keys: [keys.session.cookieKey]
-// }));
-// initialize passport
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -69,7 +65,6 @@ app.get('/', authCheck,  (req, res) => {
 app.get('/room', (req, res) => {
     const meetingID = idGenerator()
     res.redirect(`/room/${meetingID}`)
-    // res.redirect(`/room/${uuidV4()}`)
 })
 
 app.get('/test', (req, res) => {
@@ -131,6 +126,7 @@ io.on('connection', socket => {
             socket.broadcast.to(roomID).emit("receive-message", { by: username, message: message });
         })
         socket.on('canvas-data', (data)=> {
+            console.log("canvas data came to server");
             socket.broadcast.emit('canvas-data', data);
         })
         socket.on('screen-unshared', (screenID) =>{

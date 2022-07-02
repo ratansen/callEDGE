@@ -11,7 +11,7 @@ const peers = {}
 
 navigator.mediaDevices.getUserMedia({
     video: true,
-    audio: false
+    audio: true
 }).then(stream => {
     myVideoStream = stream;
     addVideoStream(myVideo, stream, "my-video-wrapper")
@@ -40,12 +40,20 @@ socket.on('screen-shared', screenID => {
     connectToNewUser(screenID, myVideoStream)
 })
 
+var canvas = document.getElementById('whiteBoard');
 socket.on('canvas-data', imageData => {
-    whiteBoard.ctx.putImageData(imageData, 0, 0);
+    var image = new Image()
+    var ctx = canvas.getContext('2d')
+    console.log(imageData)
+    image.onload = () => {
+        whiteBoard.ctx.drawImage(image, 0, 0);
+
+    }
+    image.src = imageData;
 })
-// input value
-let message = $("input");
-// when press enter send message
+
+
+let message = $("#chat_message");
 
 $('html').keydown(function (e) {
     if (e.which == 13 && message.val().length !== 0) {
@@ -168,12 +176,12 @@ const playStop = () => {
 }
 
 
-const setUnmuteButton = () => $('.mic').html('mic_off')
-const setMuteButton = () => $('.mic').html('mic')
-const setStopVideo = () => $('.videocam').html('videocam')
-const setPlayVideo = () => $('.videocam').html('videocam_off')
-const setStopShareScreen = () => $('.shareUnshare').html('stop_screen_share')
-const setShareScreen = () => $('.shareUnshare').html('screen_share')
+const setUnmuteButton = () => $('.mic').html('mic_off').css("color", "red")
+const setMuteButton = () => $('.mic').html('mic').css("color", "#fff")
+const setStopVideo = () => $('.videocam').html('videocam').css("color", "#fff")
+const setPlayVideo = () => $('.videocam').html('videocam_off').css("color", "red")
+const setStopShareScreen = () => $('.shareUnshare').html('stop_screen_share').css("color", "red")
+const setShareScreen = () => $('.shareUnshare').html('screen_share').css("color", "#fff")
 const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text).then(() => {
         $('.copy').html('check_circle');
@@ -192,18 +200,17 @@ const toggleWhiteboard = () => {
 }
 
 
-var canvas = document.getElementById('whiteBoard');
-console.log(canvas)
 
-console.log(whiteBoard.ctx.getImageData(0, 0, whiteBoard.canvas.width, whiteBoard.canvas.height));
+
 
 canvas.addEventListener('mousemove', () => {
-    console.log(whiteBoard.ctx.getImageData(0, 0, whiteBoard.canvas.width, whiteBoard.canvas.height))
-    console.log("sdf");
+    var imageData = whiteBoard.ctx.getImageData(0, 0, whiteBoard.canvas.width, whiteBoard.canvas.height);
+    var base64ImageData = canvas.toDataURL("image/png") 
+    console.log(base64ImageData);
+    socket.emit('canvas-data', base64ImageData)
+    console.log("clicked");
+
 })
 
 const sendDrawing = () => {
-    var imageData = whiteBoard.ctx.getImageData(0, 0, whiteBoard.canvas.width, whiteBoard.canvas.height);
-    console.log(imageData);
-    socket.emit('canvas-data', imageData)
 }
