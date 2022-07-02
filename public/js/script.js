@@ -10,7 +10,7 @@ let screenSharing = false;
 const peers = {}
 
 navigator.mediaDevices.getUserMedia({
-    video: true,
+    video: false,
     audio: true
 }).then(stream => {
     myVideoStream = stream;
@@ -180,4 +180,9 @@ const copyToClipboard = (text) => {
 
 const toggleChat = () => {
     $('.chat').toggleClass("bring-in")
+}
+
+const toggleWhiteboard = () => {
+    $('.whiteboard-wrapper').toggleClass("bring-in")
+
 }

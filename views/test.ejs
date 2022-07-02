@@ -6,6 +6,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.2/drawingboard.min.js" integrity="sha512-nX6X5qhGv+uYu9+oBbsySdI+KKzNL8vlCge8/SJ+wbcvnrxk3Su4OuUM6uwY/tRAZASaApnJmhouHMU5oFGzHg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.2/drawingboard.css" integrity="sha512-WL5/mlbwJkcM2NzoUhe6Lqkb22wlfsK/Wo2u1bbVTYQY7353XJ2XEXJFYihWA6vAB8kC/xySqPvwOYMFCw3DZw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.2/drawingboard.js" integrity="sha512-jOpCCWx1DHztx2fuLiF94Fo9PIHiSk94/CucvCfMfZeF3p5ELsMVTgxjLGSzVzyv7m4id2W4ayRK8Yb/PHL84w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="/js/whiteboard.js" defer></script>
 </head>
 <style>
@@ -13,7 +19,7 @@
         width: 90vw;
         height: 80vh;
         margin: auto;
-        overflow: hidden;
+        /* overflow: hidden; */
         /* cursor: none; */
     }
     .pen{
@@ -39,32 +45,37 @@
 </style>
 
 <body>
-    <div class="canvas-wrapper" id="canvas-wrapper">
-        <div class="pointer"></div>
-        
-        <canvas id="can" class="can" style="position:absolute;color: #fff; border: 5px solid black";
-        top:10%;left:10%;border:2px solid;z-index: 5000;">
-    </canvas>
-    </div>
-    <div class="board-controls">
-        
-        <div class="pen" style="background:green;" id="green" onclick="color(this)"></div>
-        <div class="pen" style="background:blue;" id="blue" onclick="color(this)"></div>
-        <div class="pen" style="background:red;" id="red" onclick="color(this)"></div>
-        <div class="pen" style="background:yellow;" id="yellow" onclick="color(this)"></div>
-        <div class="pen" style="background:orange;" id="orange" onclick="color(this)"></div>
-        <div class="pen" style="background:black;" id="black" onclick="color(this)"></div>
-        
-        <div>
-            <div style="width:15px;height:15px;background:white;border:2px solid;" id="white"
-            onclick="color(this)"></div>
-        </div>
-        <img id="canvasimg" style="position:absolute;top:10%;left:52%;" style="display:none;">
-        <input type="button" value="save" id="btn" size="30" onclick="save()" style="top:55%;left:10%;">
-        <input type="button" value="clear" id="clr" size="23" onclick="erase()">
+        <div class="canvas-wrapper" id="canvas-wrapper">
+            <div class="pointer"></div>
+
+            <canvas id="can" class="can" style=" border: 1px solid black ;z-index: 5000;">
+            </canvas>
+            <div class="board-controls">
+
+                <div class="pen" style="background:green;" id="green" onclick="color(this)"></div>
+                <div class="pen" style="background:blue;" id="blue" onclick="color(this)"></div>
+                <div class="pen" style="background:red;" id="red" onclick="color(this)"></div>
+                <div class="pen" style="background:yellow;" id="yellow" onclick="color(this)"></div>
+                <div class="pen" style="background:orange;" id="orange" onclick="color(this)"></div>
+                <div class="pen" style="background:black;" id="black" onclick="color(this)"></div>
+
+                <div>
+                    <div style="width:15px;height:15px;background:white;border:2px solid;" id="white"
+                        onclick="color(this)"></div>
+                </div>
+                <img id="canvasimg" style="position:absolute;top:10%;left:52%;" style="display:none;">
+                <input type="button" value="save" id="btn" size="30" onclick="save()"
+                    style="top:55%;left:10%;">
+                <input type="button" value="clear" id="clr" size="23" onclick="erase()">
+            </div>
+
+
     </div>
     
     
 </body>
+<script>
+    // var defaultBoard = new DrawingBoard.Board('canvas-wrapper');
+</script>
 
 </html>

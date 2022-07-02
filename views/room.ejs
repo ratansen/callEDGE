@@ -8,24 +8,25 @@
     <script>
         const ROOM_ID = "<%= roomId %>"
     </script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/solid.min.js" integrity="sha512-C92U8X5fKxCN7C6A/AttDsqXQiB7gxwvg/9JCxcqR6KV+F0nvMBwL4wuQc+PwCfQGfazIe7Cm5g0VaHaoZ/BOQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script defer src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="/socket.io/socket.io.js" defer></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.2/drawingboard.min.js"
+        integrity="sha512-nX6X5qhGv+uYu9+oBbsySdI+KKzNL8vlCge8/SJ+wbcvnrxk3Su4OuUM6uwY/tRAZASaApnJmhouHMU5oFGzHg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.2/drawingboard.css"
+        integrity="sha512-WL5/mlbwJkcM2NzoUhe6Lqkb22wlfsK/Wo2u1bbVTYQY7353XJ2XEXJFYihWA6vAB8kC/xySqPvwOYMFCw3DZw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.2/drawingboard.js" integrity="sha512-jOpCCWx1DHztx2fuLiF94Fo9PIHiSk94/CucvCfMfZeF3p5ELsMVTgxjLGSzVzyv7m4id2W4ayRK8Yb/PHL84w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/room.css">
-    <script src="https://kit.fontawesome.com/c939d0e917.js"></script>
+    <script src="/socket.io/socket.io.js" defer></script>
     <script src="/js/script.js" defer></script>
     <script src="/js/screenshare.js" defer></script>
-    <script src="/js/whiteboard.js" defer></script>
     <style>
         //   #video-grid{
         //      display: flex;
@@ -45,6 +46,9 @@
     <div class="main">
         <div class="main-left">
             <div class="main-videos">
+                <div class="whiteboard-wrapper" id="whiteboard-wrapper">
+                    
+                </div>
                 <div id="Dish">
 
                 </div>
@@ -52,7 +56,8 @@
             <div class="main-controls">
                 <div class="main-controls-block">
                     <%= roomId %>
-                    <span style="font-size: 1.2rem; margin-bottom: 12px;" class="material-icons copy" onclick="copyToClipboard('<%= roomId %>')">content_copy</span>
+                        <span style="font-size: 1.2rem; margin-bottom: 12px;" class="material-icons copy"
+                            onclick="copyToClipboard('<%= roomId %>')">content_copy</span>
                 </div>
                 <div class="main-controls-block">
                     <div onclick="muteUnmute()" class="main-controls-button main-mute_button">
@@ -74,9 +79,9 @@
                     </div>
                     <div onclick="toggleChat()" class="main-controls-button">
                         <span class="material-icons">chat</span>
-                        </div>
-                        <div onclick="toggleBoard()" class="main-controls-button">
-                            <span class="material-icons">note_alt</span>
+                    </div>
+                    <div onclick="toggleWhiteboard()" class="main-controls-button">
+                        <span class="material-icons">note_alt</span>
                     </div>
                 </div>
             </div>
@@ -105,5 +110,19 @@
         </div>
     </div>
 </body>
+
+<script>
+    var whiteBoard = new DrawingBoard.Board('whiteboard-wrapper', {
+        controls: [
+            'Color',
+            { Size: { type: "range" } },
+            'DrawingMode',
+            'Navigation',
+        ]
+    });
+
+
+
+</script>
 
 </html>
