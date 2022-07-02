@@ -24,7 +24,7 @@ app.use('/peerjs', peerServer);
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
-
+app.use(express.json({limit: '50mb'}));
 
 app.use(session({
     resave: false,

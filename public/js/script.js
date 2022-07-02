@@ -11,10 +11,10 @@ const peers = {}
 
 navigator.mediaDevices.getUserMedia({
     video: true,
-    audio: true
+    audio: false
 }).then(stream => {
     myVideoStream = stream;
-    addVideoStream(myVideo, stream)
+    addVideoStream(myVideo, stream, "my-video-wrapper")
 })
 
 
@@ -38,6 +38,10 @@ socket.on('user-connected', remoteID => {
 socket.on('screen-shared', screenID => {
     console.log("connecting to new user");
     connectToNewUser(screenID, myVideoStream)
+})
+
+socket.on('canvas-data', imageData => {
+    whiteBoard.ctx.putImageData(imageData, 0, 0);
 })
 // input value
 let message = $("input");
@@ -185,4 +189,21 @@ const toggleChat = () => {
 const toggleWhiteboard = () => {
     $('.whiteboard-wrapper').toggleClass("bring-in")
 
+}
+
+
+var canvas = document.getElementById('whiteBoard');
+console.log(canvas)
+
+console.log(whiteBoard.ctx.getImageData(0, 0, whiteBoard.canvas.width, whiteBoard.canvas.height));
+
+canvas.addEventListener('mousemove', () => {
+    console.log(whiteBoard.ctx.getImageData(0, 0, whiteBoard.canvas.width, whiteBoard.canvas.height))
+    console.log("sdf");
+})
+
+const sendDrawing = () => {
+    var imageData = whiteBoard.ctx.getImageData(0, 0, whiteBoard.canvas.width, whiteBoard.canvas.height);
+    console.log(imageData);
+    socket.emit('canvas-data', imageData)
 }

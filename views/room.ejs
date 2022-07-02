@@ -15,18 +15,17 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.2/drawingboard.min.js"
-        integrity="sha512-nX6X5qhGv+uYu9+oBbsySdI+KKzNL8vlCge8/SJ+wbcvnrxk3Su4OuUM6uwY/tRAZASaApnJmhouHMU5oFGzHg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.2/drawingboard.css"
-        integrity="sha512-WL5/mlbwJkcM2NzoUhe6Lqkb22wlfsK/Wo2u1bbVTYQY7353XJ2XEXJFYihWA6vAB8kC/xySqPvwOYMFCw3DZw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.2/drawingboard.js" integrity="sha512-jOpCCWx1DHztx2fuLiF94Fo9PIHiSk94/CucvCfMfZeF3p5ELsMVTgxjLGSzVzyv7m4id2W4ayRK8Yb/PHL84w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+        <link rel="stylesheet" href="/css/drawingboard.css">
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/room.css">
     <script src="/socket.io/socket.io.js" defer></script>
     <script src="/js/script.js" defer></script>
     <script src="/js/screenshare.js" defer></script>
+    <script src="/js/drawingboard.js"></script>
+
     <style>
         //   #video-grid{
         //      display: flex;
@@ -74,7 +73,7 @@
                     </div>
                 </div>
                 <div class="main-controls-block">
-                    <div class="main-controls-button">
+                    <div onclick="sendDrawing()" class="main-controls-button">
                         <span class="material-icons">people</span>
                     </div>
                     <div onclick="toggleChat()" class="main-controls-button">
@@ -120,6 +119,9 @@
             'Navigation',
         ]
     });
+
+
+
 
 
 
