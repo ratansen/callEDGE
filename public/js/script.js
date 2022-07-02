@@ -11,29 +11,29 @@ const peers = {}
 
 navigator.mediaDevices.getUserMedia({
     video: true,
-    audio: true
+    audio: false
 }).then(stream => {
     myVideoStream = stream;
     addVideoStream(myVideo, stream, "my-video-wrapper")
-})
-
-
-
-peer.on('call', call => {
-    call.answer(myVideoStream)
-    const video = document.createElement('video')
-    call.on('stream', userVideoStream => {
-        addVideoStream(video, userVideoStream, call.peer)
-        console.log("came in ");
-        peerInstance = call
-        peers[call.peer] = call
+    peer.on('call', call => {
+        call.answer(myVideoStream)
+        const video = document.createElement('video')
+        call.on('stream', userVideoStream => {
+            addVideoStream(video, userVideoStream, call.peer)
+            console.log("came in ");
+            peers[call.peer] = call
+        })
     })
+    
+    socket.on('user-connected', remoteID => {
+        connectToNewUser(remoteID, myVideoStream)
+    })
+    
+    
 })
 
 
-socket.on('user-connected', remoteID => {
-    connectToNewUser(remoteID, myVideoStream)
-})
+
 
 socket.on('screen-shared', screenID => {
     console.log("connecting to new user");
@@ -44,10 +44,8 @@ var canvas = document.getElementById('whiteBoard');
 socket.on('canvas-data', imageData => {
     var image = new Image()
     var ctx = canvas.getContext('2d')
-    console.log(imageData)
     image.onload = () => {
         whiteBoard.ctx.drawImage(image, 0, 0);
-
     }
     image.src = imageData;
 })
@@ -107,6 +105,20 @@ function connectToNewUser(remoteID, stream) {
 
 }
 
+function addVideoStream(video, stream, remoteID) {
+    video.srcObject = stream
+    video.addEventListener('loadedmetadata', () => {
+        video.play()
+    })
+    const videoDiv = document.createElement('div')
+    videoDiv.classList.add("videoWrapper")
+    videoDiv.setAttribute('id', remoteID)
+    
+    videoDiv.append(video)
+    videoGrid.append(videoDiv)
+    resizeVideoWrappers();
+
+}
 
 function resizeVideoWrappers(){
     var allVideos = document.querySelectorAll('.videoWrapper')
@@ -123,20 +135,6 @@ function resizeVideoWrappers(){
 }
 
 
-function addVideoStream(video, stream, remoteID) {
-    video.srcObject = stream
-    video.addEventListener('loadedmetadata', () => {
-        video.play()
-    })
-    const videoDiv = document.createElement('div')
-    videoDiv.classList.add("videoWrapper")
-    videoDiv.setAttribute('id', remoteID)
-    
-    videoDiv.append(video)
-    videoGrid.append(videoDiv)
-    resizeVideoWrappers();
-
-}
 
 const endCall = () => {
     if(confirm("Are you sure to end this call?")) {
@@ -204,11 +202,8 @@ const toggleWhiteboard = () => {
 
 
 canvas.addEventListener('mousemove', () => {
-    var imageData = whiteBoard.ctx.getImageData(0, 0, whiteBoard.canvas.width, whiteBoard.canvas.height);
     var base64ImageData = canvas.toDataURL("image/png") 
-    console.log(base64ImageData);
     socket.emit('canvas-data', base64ImageData)
-    console.log("clicked");
 
 })
 
