@@ -7826,7 +7826,7 @@ $jscomp.polyfill = function (e, r, p, m) {
                 Chips._keydown = true;
 
                 // enter
-                if (e.keyCode === 13 || e.key==="Enter" || e.keyCode ===229) {
+                if (e.keyCode === 13 || e.key==="Enter") {
                     // Override enter if autocompleting.
                     if (this.hasAutocomplete && this.autocomplete && this.autocomplete.isOpen) {
                         return;
