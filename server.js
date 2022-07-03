@@ -68,12 +68,13 @@ const authCheck = (req, res, next) => {
 
 app.get('/', authCheck,  (req, res) => {
     console.log(req.user)
+    meetID = idGenerator();
     console.log(req.isAuthenticated())
-    res.render('home', {user: req.user.username})
+    res.render('home', {user: req.user.username, email: req.user.email, meetID: meetID})
 })
 
 
-app.get('/room', (req, res) => {
+app.get('/room', authCheck, (req, res) => {
     const meetingID = idGenerator()
     res.redirect(`/room/${meetingID}`)
 })
@@ -88,12 +89,15 @@ app.get('/login',  (req, res) => {
     else res.render('login')
 })
 
-app.get('/room/:room', (req, res) => {
+app.get('/room/:room', authCheck, (req, res) => {
     res.render('room', {roomId: req.params.room, user: req.user.username})
 })
 
 app.get('/auth/google', passport.authenticate('google', {
-    scope: ['profile']
+    scope: [
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/userinfo.email'
+    ]
 }));
 
 app.get('/logout', function(req, res, next) {
@@ -174,7 +178,7 @@ const emailTransporter = nodemailer.createTransport({
 
 
 app.post('/invite', (req, res) => {
-    const meetingID = idGenerator()
+    const meetID = req.body.meetID
     const templateMaker = (id) => {
         return  {
             from: "calledge.office@gmail.com",
@@ -182,7 +186,7 @@ app.post('/invite', (req, res) => {
             subject: `Meeting Invitation`,
             text: "Invitaion mail",
             html: `<p>Hey callEDGE user!<br>You have been invited to a new meeting scheduled on <b> ${req.body.date}</b> at <b> ${req.body.time}</b>.<br>Do join in. See you there! </p>
-            Meet ID: <b>${meetingID}</b> <br>
+            Meet ID: <b>${meetID}</b> <br>
              You can also <a href = "https://call-edge.herokuapp.com/room/${meetingID}">click here </a> to join.`
           };
     }

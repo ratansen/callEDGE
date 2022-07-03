@@ -6,6 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | callEDGE</title>
+    <script>
+        const EMAIL = "<%=email%>" 
+        const MEET_ID = "<%=meetID%>" 
+    </script>
     <script src="https://unpkg.com/micromodal/dist/micromodal.min.js
     "></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -43,26 +47,26 @@
   } );
 </script>
 
-<body x-data="{ showModal : false }" class="sm: p-3" >
+<body x-data="{ showModal : false }" class="p-0" >
 
 
-    <nav>
-        <p style="font-family: var(--font4) ;">callEDGE</p>
+    <nav class="border-b-2">
+        <p style="font-family: var(--font4) ;" class="text-xl">callEDGE</p>
         <a href="/logout"><i class="material-icons md-48">logout</i></a>
 
     </nav>
 
 
-    <div class="container">
+    <div class="container p-6">
         <div class="hero-main">
-            <div class="first">Hello <%= user %>
+            <div class="first text-3xl">Hello <b><%= user %>!</b>
             </div>
-            <div class="second">I don't know what to write so I wrote this.</div>
-            <div class="meeting-actions">
-                <div onclick="window.location = 'room/'" class="create-meet">
+            <div class="second -mt-3">Nothing like enjoying callEDGE during your college life.</div>
+            <div class="meeting-actions mt-5">
+                <div onclick="window.location = 'room/'" class="create-meet hover:bg-indigo-800 px-4">
                     <span class="material-icons">videocam</span>Start new meet
                 </div>
-                <div @click="showModal = true" class="schedule-meet" id="open-modal">
+                <div @click="showModal = true" class="schedule-meet bg-red-600 hover:bg-red-700 px-4" id="open-modal">
                     <span class="material-icons">event</span>Schedule a meet
                 </div>
             </div>
@@ -70,8 +74,8 @@
                 <span class="material-icons">keyboard</span><input placeholder="Enter meet link" id="meeting-link"
                     class="meeting-link"></input>
                 <button id="join" class="join"
-                    onclick="window.location = 'room/' + document.getElementById('meeting-link').value"><span
-                        class="material-icons">chevron_right</span></button>
+                    onclick="window.location = 'room/' + document.getElementById('meeting-link').value">
+                    <span class="material-icons hover:tran">chevron_right</span></button>
             </div>
 
             
@@ -83,25 +87,25 @@
 
         <div x-show="showModal"  class="fixed text-gray-500 flex items-center justify-center overflow-auto z-50 bg-black bg-opacity-40 left-0 right-0 top-0 bottom-0" x-transition:enter="transition ease duration-500" >
             
-            <div x-show="showModal" class="bg-white rounded-xl shadow-2xl p-3 md:p-8 w-10/12 sm:w-1/2  mx-10"  x-transition:enter="transition ease duration-100 transform" x-transition:enter-start="opacity-0 scale-90 translate-y-1" x-transition:enter-end="opacity-100 scale-100 translate-y-0" x-transition:leave="transition ease duration-100 transform" x-transition:leave-start="opacity-100 scale-100 translate-y-0" x-transition:leave-end="opacity-0 scale-90 translate-y-1">
+            <div x-show="showModal" class="bg-white rounded-xl shadow-2xl p-2 md:p-8 w-11/12 sm:w-2/3  mx-10"  x-transition:enter="transition ease duration-100 transform" x-transition:enter-start="opacity-0 scale-90 translate-y-1" x-transition:enter-end="opacity-100 scale-100 translate-y-0" x-transition:leave="transition ease duration-100 transform" x-transition:leave-start="opacity-100 scale-100 translate-y-0" x-transition:leave-end="opacity-0 scale-90 translate-y-1">
                 
                 <!-- Title -->
-                <span class="font-bold block text-xl mb-3">Meeting details </span>
-                <div class="p-10">
-                    To: 
+                <span class="font-bold block text-xl mb-3 center">Meeting details </span>
+                <div class="px-2 md:px-10 pt-10">Meet ID: <b class="text-black"><%=meetID%></b></div>
+                <div class="px-2 md:p-10">
+                    Send invitaion link to
                     <div class="chips" ></div>
 
                 </div>
                 <div class="flex flex-wrap gap-px justify-around">
-                    <div class="h-10 focus:outline-0">Date: <input class="border h-10 focus:outline-0" type="text" id="datepicker"></div>
-                    <div class="h-10 focus:outline-0">Time: <input class="border h-10 focus:outline-0" type="text" id="timepicker"></div>
+                    <div class="h-10 focus:outline-0">Date <input class="border h-10 focus:outline-0" type="text" id="datepicker"></div>
+                    <div class="h-10 focus:outline-0">Time <input class="border h-10 focus:outline-0" type="text" id="timepicker"></div>
 
                 </div>
                 
-                <!-- <i class="material-icons">close</i> -->
                 <div class="text-right space-x-5 mt-5">
                     <button @click="showModal = !showModal" class="px-4 py-2 text-sm bg-white text-red-500 rounded-xl border border-red-500 transition-colors  duration-150 ease-linear font-bold hover:bg-red-500 hover:text-white">Cancel</button>
-                    <button onclick="postMailIDs()" @click="showModal = !showModal" class="px-4 py-2 text-sm text-green-500 bg-white border-green-500 rounded-xl border transition-colors duration-150 ease-linear font-bold hover:bg-green-500 hover:text-white">Invite</button>
+                    <button onclick="postMailIDs()" @click="showModal = !showModal" class="px-4 py-2 text-sm text-green-700 bg-white border-green-700 rounded-xl border transition-colors duration-150 ease-linear font-bold hover:bg-green-700 hover:text-white">Invite</button>
                 </div>
             </div>
         </div>
@@ -114,6 +118,9 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $('.chips').chips({
+        data: [{
+            tag: EMAIL,
+            }],
         onChipAdd: () => {
             console.log("Chip Added");
         },
@@ -124,13 +131,15 @@ $(document).ready(function () {
             console.log("Chip Deleted");
         }
     });
+    $('.input').val("");
+    $('.input').attr('placeholder', "Hit enter after each mail");
+    $('.input').attr('enterkeyhint', "enter");
 
 });
-function print() {
-    var chipsData = M.Chips.getInstance($('.chips')).chipsData;
-    
 
-}
+
+
+
 
 const postMailIDs = () => {
     var chipsData = M.Chips.getInstance($('.chips')).chipsData;
@@ -139,7 +148,7 @@ const postMailIDs = () => {
         mailIDs.push(item.tag);
     });
     console.log($('#datepicker').val());
-    var toPost = {"name" : "huehue", mailIDs: mailIDs, date: $('#datepicker').val(), time: $('#timepicker').val()}
+    var toPost = {"name" : "huehue", mailIDs: mailIDs, date: $('#datepicker').val(), time: $('#timepicker').val(), "meetID": MEET_ID}
     toPost = JSON.stringify(toPost)
 
     const response = fetch("/invite", {
