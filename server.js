@@ -5,6 +5,7 @@ const cookieSession = require('cookie-session');
 const passportSetup = require('./config/passport-setup');
 const mongoose = require('mongoose');
 const session = require('express-session')
+const nodemailer = require('nodemailer')
 const idGenerator = require('./utils/id-generator')
 const app = express()
 require('dotenv').config()
@@ -19,6 +20,7 @@ const io = require('socket.io')(server, {
     allowEIO3: true
 })
 const { ExpressPeerServer } = require('peer');
+const { callbackify } = require('util');
 
 
 
@@ -32,6 +34,8 @@ app.use('/peerjs', peerServer);
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(session({
     resave: false,
@@ -152,10 +156,47 @@ io.on('connection', socket => {
     })
 
 
+})
+
+
+// ----------------------------------mailing--------------------------------------
+
+const emailTransporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+       user: "calledge.office@gmail.com",
+       pass: process.env.password
+    },
+    debug: false,
+    logger: true
+});
 
 
 
+app.post('/invite', (req, res) => {
+    const meetingID = idGenerator()
+    const templateMaker = (id) => {
+        return  {
+            from: "calledge.office@gmail.com",
+            to: id,
+            subject: `Meeting Invitation`,
+            text: "Invitaion mail",
+            html: `<p>Hey callEDGE user!<br>You have been invited to a new meeting scheduled on <b> ${req.body.date}</b> at <b> ${req.body.time}</b>.<br>Do join in. See you there! </p>
+            Meet ID: <b>${meetingID}</b> <br>
+             You can also <a href = "https://call-edge.herokuapp.com/room/${meetingID}">click here </a> to join.`
+          };
+    }
+    req.body.mailIDs.forEach(id => {
+        emailTransporter.sendMail(templateMaker(id));
+    })
+    res.redirect('/');
+    // console.log(req.body)
+    // console.log("came")
+    // emailTransporter.sendMail(mailOptions);
 
 })
+
+
+
 
 server.listen(process.env.PORT || 3002)

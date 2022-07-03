@@ -221,5 +221,3 @@ canvas.addEventListener('mousemove', () => {
 
 })
 
-const sendDrawing = () => {
-}

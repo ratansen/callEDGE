@@ -22,9 +22,7 @@ a{
     text-decoration: none;
 }
 
-input:focus{
-    outline: none;
-}
+
 .material-icons{
     display: flex;
     align-items: center;

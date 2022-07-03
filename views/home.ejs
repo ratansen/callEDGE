@@ -1,55 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | callEDGE</title>
+    <script src="https://unpkg.com/micromodal/dist/micromodal.min.js
+    "></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js" integrity="sha256-8WqyJLuWKRBVhxXIL1jBDD7SDxU936oZkCnxQbWwJVw=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+    <!-- tailwind and alpine js -->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- chip js -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
+
+    <script src="js/materialize.js" > </script>
+
+
+    <link rel="stylesheet" href="css/materialize.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/home.css">
 </head>
-<body>
+<style>
+
+
+</style>
+<script>
+      $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+      $( function() {
+    $( "#timepicker" ).timepicker();
+  } );
+</script>
+
+<body x-data="{ showModal : false }" class="sm: p-3" >
+
 
     <nav>
         <p style="font-family: var(--font4) ;">callEDGE</p>
         <a href="/logout"><i class="material-icons md-48">logout</i></a>
-    
+
     </nav>
-    
+
 
     <div class="container">
         <div class="hero-main">
-            <div class="first">Hello <%= user %></div>
+            <div class="first">Hello <%= user %>
+            </div>
             <div class="second">I don't know what to write so I wrote this.</div>
             <div class="meeting-actions">
                 <div onclick="window.location = 'room/'" class="create-meet">
-                    <span class="material-icons">videocam</span>Create new meet
+                    <span class="material-icons">videocam</span>Start new meet
                 </div>
-                <div class="input-box">
-                    <span class="material-icons">keyboard</span><input placeholder="Enter meet link" id="meeting-link" class="meeting-link"></input>
-                    <button id="join" class="join" onclick="window.location = 'room/' + document.getElementById('meeting-link').value"><span class="material-icons">chevron_right</span></button>
+                <div @click="showModal = true" class="schedule-meet" id="open-modal">
+                    <span class="material-icons">event</span>Schedule a meet
+                </div>
+            </div>
+            <div class="input-box">
+                <span class="material-icons">keyboard</span><input placeholder="Enter meet link" id="meeting-link"
+                    class="meeting-link"></input>
+                <button id="join" class="join"
+                    onclick="window.location = 'room/' + document.getElementById('meeting-link').value"><span
+                        class="material-icons">chevron_right</span></button>
+            </div>
+
+            
+        </div>
+        <div class="hero-image">
+            <img src="images/hero.png" </div>
+        </div>
+
+
+        <div x-show="showModal"  class="fixed text-gray-500 flex items-center justify-center overflow-auto z-50 bg-black bg-opacity-40 left-0 right-0 top-0 bottom-0" x-transition:enter="transition ease duration-500" >
+            
+            <div x-show="showModal" class="bg-white rounded-xl shadow-2xl p-3 md:p-8 w-10/12 sm:w-1/2  mx-10"  x-transition:enter="transition ease duration-100 transform" x-transition:enter-start="opacity-0 scale-90 translate-y-1" x-transition:enter-end="opacity-100 scale-100 translate-y-0" x-transition:leave="transition ease duration-100 transform" x-transition:leave-start="opacity-100 scale-100 translate-y-0" x-transition:leave-end="opacity-0 scale-90 translate-y-1">
+                
+                <!-- Title -->
+                <span class="font-bold block text-xl mb-3">Meeting details </span>
+                <div class="p-10">
+                    To: 
+                    <div class="chips" ></div>
+
+                </div>
+                <div class="flex flex-wrap gap-px justify-around">
+                    <div class="h-10 focus:outline-0">Date: <input class="border h-10 focus:outline-0" type="text" id="datepicker"></div>
+                    <div class="h-10 focus:outline-0">Time: <input class="border h-10 focus:outline-0" type="text" id="timepicker"></div>
+
+                </div>
+                
+                <!-- <i class="material-icons">close</i> -->
+                <div class="text-right space-x-5 mt-5">
+                    <button @click="showModal = !showModal" class="px-4 py-2 text-sm bg-white text-red-500 rounded-xl border border-red-500 transition-colors  duration-150 ease-linear font-bold hover:bg-red-500 hover:text-white">Cancel</button>
+                    <button onclick="postMailIDs()" @click="showModal = !showModal" class="px-4 py-2 text-sm text-green-500 bg-white border-green-500 rounded-xl border transition-colors duration-150 ease-linear font-bold hover:bg-green-500 hover:text-white">Invite</button>
                 </div>
             </div>
         </div>
-        <div class="hero-image">
-            <img src="images/hero.png"
-        </div>
     </div>
+
+
+
 </body>
-<script>
-    var join = document.getElementById('join')
-    var meetLink = document.getElementById('meeting-link') 
-    meetLink.addEventListener('onfocus', () => {
-        if(meetLink.value.length == 0){
-            join.style.color = "gray";
-        }
-        else{
-            join.style.color = "var(--primary)";
-        }
 
-    })
+<script type="text/javascript">
+$(document).ready(function () {
+    $('.chips').chips({
+        onChipAdd: () => {
+            console.log("Chip Added");
+        },
+        onChipSelect: () => {
+            console.log("Chip Selected");
+        },
+        onChipDelete: () => {
+            console.log("Chip Deleted");
+        }
+    });
 
+});
+function print() {
+    var chipsData = M.Chips.getInstance($('.chips')).chipsData;
     
+
+}
+
+const postMailIDs = () => {
+    var chipsData = M.Chips.getInstance($('.chips')).chipsData;
+    var mailIDs = []
+    chipsData.forEach(item => {
+        mailIDs.push(item.tag);
+    });
+    console.log($('#datepicker').val());
+    var toPost = {"name" : "huehue", mailIDs: mailIDs, date: $('#datepicker').val(), time: $('#timepicker').val()}
+    toPost = JSON.stringify(toPost)
+
+    const response = fetch("/invite", {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    json: true,
+    body: toPost,
+    });
+}
+
 </script>
 
 </html>
