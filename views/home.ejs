@@ -135,6 +135,10 @@ $(document).ready(function () {
     $('.input').attr('placeholder', "Hit enter after each mail");
     $('.input').attr('enterkeyhint', "enter");
 
+    $('.input').keydown(function (e) {
+        console.log(e);
+    })
+
 });
 
 
