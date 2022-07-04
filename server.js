@@ -186,7 +186,7 @@ app.post('/invite', (req, res) => {
             text: "Invitaion mail",
             html: `<p>Hey callEDGE user!<br>You have been invited to a new meeting scheduled on <b> ${req.body.date}</b> at <b> ${req.body.time}</b>.<br>Do join in. See you there! </p>
             Meet ID: <b>${meetID}</b> <br>
-             You can also <a href = "https://call-edge.herokuapp.com/room/${meetingID}">click here </a> to join.`
+             You can also <a href = "https://call-edge.herokuapp.com/room/${meetID}">click here </a> to join.`
           };
     }
     req.body.mailIDs.forEach(id => {
