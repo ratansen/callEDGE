@@ -7744,6 +7744,7 @@ $jscomp.polyfill = function (e, r, p, m) {
                 this.$input[0].addEventListener('focus', this._handleInputFocusBound);
                 this.$input[0].addEventListener('blur', this._handleInputBlurBound);
                 this.$input[0].addEventListener('keydown', this._handleInputKeydownBound);
+                document.addEventListener('keydown', this._handleInputKeydownBound);
             }
 
             /**

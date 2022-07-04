@@ -27,7 +27,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
 
-    <script src="js/materialize.js" > </script>
+    <script src="js/utils/materialize.js" > </script>
 
 
     <link rel="stylesheet" href="css/materialize.css">
@@ -93,8 +93,9 @@
                 <span class="font-bold block text-xl mb-3 center">Meeting details </span>
                 <div class="px-2 md:px-10 pt-10">Meet ID: <b class="text-black"><%=meetID%></b></div>
                 <div class="px-2 md:p-10">
-                    Send invitaion link to
+                    Send invitaion link to <div onclick="addChips()" class="material-icons text-green-500 float-right">add_circle</div>
                     <div class="chips" ></div>
+                    
 
                 </div>
                 <div class="flex flex-wrap gap-px justify-around">
@@ -122,24 +123,24 @@ $(document).ready(function () {
             tag: EMAIL,
             }],
         onChipAdd: () => {
-            console.log("Chip Added");
+            // console.log("Chip Added");
         },
         onChipSelect: () => {
-            console.log("Chip Selected");
+            // console.log("Chip Selected");
         },
         onChipDelete: () => {
-            console.log("Chip Deleted");
+            // console.log("Chip Deleted");
         }
     });
     $('.input').val("");
-    $('.input').attr('placeholder', "Hit enter after each mail");
+    $('.input').attr('placeholder', "Enter email id here");
     $('.input').attr('enterkeyhint', "enter");
 
-    $('.input').keydown(function (e) {
-        console.log(e);
-    })
-
 });
+
+function addChips(){
+    document.dispatchEvent(new KeyboardEvent('keydown', {'key': 'Enter'}))
+}
 
 
 
